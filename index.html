@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vector Baltic — See the Unseen</title>
+    <meta
+      name="description"
+      content="Maritime intelligence for the Baltic. Open-source intelligence (OSINT) vessel analysis, anomaly and spoofing detection, and threat scoring on a live tactical map."
+    />
+    <meta name="author" content="Vector Baltic" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <!-- The hero background is applied from JS; preloading lets the fetch
+         start in parallel with the bundle instead of after it executes. -->
+    <link rel="preload" as="image" href="/src/assets/hero-ocean.jpg" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Vector Baltic — See the Unseen" />
+    <meta
+      property="og:description"
+      content="Maritime intelligence for the Baltic — automated OSINT analysis, anomaly detection and threat scoring on a live tactical map."
+    />
+    <!-- Absolute URL required by social scrapers; github.io 301s to the
+         custom domain once DNS is switched, so this keeps resolving. -->
+    <meta
+      property="og:image"
+      content="https://vector-baltic.github.io/vb_landingpage/og-image.jpg"
+    />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Vector Baltic — See the Unseen" />
+    <meta
+      name="twitter:description"
+      content="Maritime intelligence for the Baltic — automated OSINT analysis, anomaly detection and threat scoring on a live tactical map."
+    />
+    <meta
+      name="twitter:image"
+      content="https://vector-baltic.github.io/vb_landingpage/og-image.jpg"
+    />
+  </head>
+  <body>
+    <div id="root"></div>
+    <noscript>
+      <div style="font-family: sans-serif; padding: 4rem 1rem; text-align: center">
+        <h1>Vector Baltic — See the Unseen</h1>
+        <p>
+          AI-driven solutions for critical infrastructure security. This site
+          requires JavaScript; you can reach us at
+          <a href="mailto:vb@vectorb.one">vb@vectorb.one</a>.
+        </p>
+      </div>
+    </noscript>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
