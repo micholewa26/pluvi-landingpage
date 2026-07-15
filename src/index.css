@@ -2,9 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Self-hosted variable fonts — only the latin + latin-ext subsets this
-   English/Polish page can actually use (the @fontsource default imports
-   would ship cyrillic/greek/vietnamese woff2 that no visitor ever fetches). */
+/* Self-hosted variable fonts — latin + latin-ext subsets only (Polish page). */
 @font-face {
   font-family: "Inter Variable";
   font-style: normal;
@@ -52,20 +50,32 @@
 
 @layer base {
   :root {
-    --background: 222 47% 5%;
-    --foreground: 0 0% 100%;
+    --background: 0 0% 100%;
+    --foreground: 230 30% 10%;
 
-    --card: 217 33% 9%;
+    --card: 0 0% 100%;
+    --card-foreground: 230 30% 10%;
 
-    --primary: 188 95% 43%;
-    --primary-foreground: 217 33% 9%;
+    --primary: 235 100% 50%;
+    --primary-foreground: 0 0% 100%;
 
-    --muted: 217 33% 15%;
-    --muted-foreground: 215 16% 70%;
+    --secondary: 230 25% 10%;
+    --secondary-foreground: 220 20% 92%;
 
-    --border: 217 33% 15%;
+    --muted: 225 20% 95%;
+    --muted-foreground: 230 10% 45%;
+
+    --accent: 152 55% 42%;
+    --accent-foreground: 0 0% 100%;
+
+    --border: 225 20% 89%;
+    --input: 225 20% 89%;
 
     --radius: 0.75rem;
+
+    --hero-bg: 230 30% 7%;
+    --hero-foreground: 220 20% 95%;
+    --section-alt: 225 25% 96%;
   }
 
   * {
@@ -74,8 +84,8 @@
 
   html {
     scroll-behavior: smooth;
-    /* Keep anchor targets clear of the fixed h-20 (5rem) navbar. */
-    scroll-padding-top: 5rem;
+    /* Keep anchor targets clear of the fixed h-16 navbar. */
+    scroll-padding-top: 4.5rem;
   }
 
   body {
@@ -87,11 +97,9 @@
   }
 
   ::selection {
-    background: hsl(var(--primary) / 0.35);
+    background: hsl(var(--primary) / 0.25);
   }
 
-  /* Gate the raw CSS animations (sonar, wave, ping, bounce) the same way
-     framer-motion gates its animations via useReducedMotion. */
   @media (prefers-reduced-motion: reduce) {
     *,
     ::before,
@@ -106,28 +114,42 @@
   }
 }
 
-@layer components {
-  /* Shared hover-glow card treatment (Solutions, Agents, Team). */
-  .card-glow {
-    @apply rounded-xl border border-border bg-card transition-all duration-300 hover:border-primary/50 hover:shadow-cyan;
+@layer utilities {
+  .text-gradient {
+    background-image: linear-gradient(135deg, hsl(var(--primary)), #5e6aed);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .bg-hero {
+    background-color: hsl(var(--hero-bg));
+    color: hsl(var(--hero-foreground));
+  }
+
+  .bg-section-alt {
+    background-color: hsl(var(--section-alt));
   }
 }
 
-@layer utilities {
-  .text-glow {
-    text-shadow: 0 0 40px hsl(188 95% 43% / 0.5);
+/* Keyframes used inside the phone-demo mockup (inline-styled component). */
+@keyframes ripple {
+  0% {
+    transform: scale(1);
+    opacity: 0.3;
   }
-
-  .grid-pattern {
-    background-image: linear-gradient(hsl(188 95% 43% / 0.05) 1px, transparent 1px),
-      linear-gradient(90deg, hsl(188 95% 43% / 0.05) 1px, transparent 1px);
-    background-size: 48px 48px;
+  100% {
+    transform: scale(2.4);
+    opacity: 0;
   }
-
-  /* 100vh with an svh override so the hero fits the *visible* mobile
-     viewport (address bar expanded); older parsers ignore the svh line. */
-  .min-h-viewport {
-    min-height: 100vh;
-    min-height: 100svh;
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
   }
 }

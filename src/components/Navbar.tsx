@@ -1,118 +1,78 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Menu, X } from "lucide-react";
-import logo from "../assets/logo-white.png";
+import { navLinks, hero } from "../data/content";
+import logo from "../assets/pluvi-logo-blue.png";
 
-const links = [
-  { label: "Solutions", href: "#solutions" },
-  { label: "Console", href: "#console" },
-  { label: "Platform", href: "#platform" },
-  { label: "Team", href: "#team" },
-];
-
-export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
+const Navbar = () => {
   const [open, setOpen] = useState(false);
 
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  // Close the mobile menu on Escape and when the viewport grows past md,
-  // and lock body scroll while it is open.
-  useEffect(() => {
-    if (!open) return;
-    const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setOpen(false);
-    };
-    const mq = window.matchMedia("(min-width: 768px)");
-    const onChange = (e: MediaQueryListEvent) => {
-      if (e.matches) setOpen(false);
-    };
-    document.addEventListener("keydown", onKeyDown);
-    mq.addEventListener("change", onChange);
-    const prevOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.removeEventListener("keydown", onKeyDown);
-      mq.removeEventListener("change", onChange);
-      document.body.style.overflow = prevOverflow;
-    };
-  }, [open]);
-
-  const solid = scrolled || open;
+  const scrollTo = (href: string) => {
+    setOpen(false);
+    document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
+  };
 
   return (
-    <header
-      className={`fixed inset-x-0 top-0 z-50 border-b transition-all duration-300 ${
-        solid
-          ? "border-border/60 bg-background/85 backdrop-blur-lg"
-          : "border-transparent bg-transparent"
-      }`}
-    >
-      <nav aria-label="Main" className="container flex h-20 items-center justify-between">
-        <a href="#top" aria-label="Vector Baltic — home">
-          <img src={logo} alt="Vector Baltic" className="h-9 w-auto md:h-11" />
-        </a>
+    <header className="fixed top-0 left-0 right-0 z-50 bg-secondary/95 backdrop-blur-md border-b border-white/10">
+      <div className="container mx-auto flex items-center justify-between h-16 px-4 lg:px-8">
+        <button
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          className="flex items-center gap-2"
+          aria-label="PLUVI — początek strony"
+        >
+          <img src={logo} alt="PLUVI logo" className="h-10 w-auto" />
+        </button>
 
-        <div className="hidden items-center gap-8 md:flex">
-          {links.map((link) => (
-            <a
+        <nav className="hidden md:flex items-center gap-6">
+          {navLinks.map((link) => (
+            <button
               key={link.href}
-              href={link.href}
-              className="text-sm text-muted-foreground transition-colors hover:text-primary"
+              onClick={() => scrollTo(link.href)}
+              className="text-sm text-secondary-foreground/70 hover:text-primary transition-colors"
             >
               {link.label}
-            </a>
+            </button>
           ))}
-          <a
-            href="#contact"
-            className="rounded-md border border-primary/50 px-5 py-2 text-sm font-medium text-primary transition-all hover:border-primary hover:bg-primary/10 hover:shadow-cyan"
+        </nav>
+
+        <div className="hidden md:block">
+          <button
+            onClick={() => scrollTo("#contact")}
+            className="rounded-lg bg-accent hover:bg-accent/90 text-accent-foreground text-sm font-semibold px-5 py-2.5 transition-colors"
           >
-            Contact
-          </a>
+            {hero.cta}
+          </button>
         </div>
 
         <button
-          className="text-foreground md:hidden"
+          className="md:hidden text-secondary-foreground"
           onClick={() => setOpen(!open)}
-          aria-expanded={open}
-          aria-controls="mobile-menu"
-          aria-label="Menu"
+          aria-label={open ? "Zamknij menu" : "Otwórz menu"}
         >
-          {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          {open ? <X size={24} /> : <Menu size={24} />}
         </button>
-      </nav>
+      </div>
 
       {open && (
-        <nav
-          id="mobile-menu"
-          aria-label="Mobile"
-          className="max-h-[calc(100dvh-5rem)] overflow-y-auto border-t border-border/60 bg-background/95 backdrop-blur-lg md:hidden"
-        >
-          <div className="container flex flex-col gap-1 py-4">
-            {links.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                onClick={() => setOpen(false)}
-                className="rounded-md px-3 py-3 text-sm text-muted-foreground transition-colors hover:bg-primary/10 hover:text-primary"
-              >
-                {link.label}
-              </a>
-            ))}
-            <a
-              href="#contact"
-              onClick={() => setOpen(false)}
-              className="mt-2 rounded-md border border-primary/50 px-3 py-3 text-center text-sm font-medium text-primary"
+        <nav className="md:hidden bg-secondary border-t border-white/10 px-4 py-4 flex flex-col gap-3">
+          {navLinks.map((link) => (
+            <button
+              key={link.href}
+              onClick={() => scrollTo(link.href)}
+              className="text-left text-secondary-foreground/80 hover:text-primary py-2 transition-colors"
             >
-              Contact
-            </a>
-          </div>
+              {link.label}
+            </button>
+          ))}
+          <button
+            onClick={() => scrollTo("#contact")}
+            className="rounded-lg bg-accent text-accent-foreground text-sm font-semibold px-5 py-3 mt-2"
+          >
+            {hero.cta}
+          </button>
         </nav>
       )}
     </header>
   );
-}
+};
+
+export default Navbar;

@@ -11,6 +11,7 @@ export default {
     extend: {
       colors: {
         border: "hsl(var(--border))",
+        input: "hsl(var(--input))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         card: "hsl(var(--card))",
@@ -18,35 +19,41 @@ export default {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
         },
+        secondary: {
+          DEFAULT: "hsl(var(--secondary))",
+          foreground: "hsl(var(--secondary-foreground))",
+        },
         muted: {
           DEFAULT: "hsl(var(--muted))",
           foreground: "hsl(var(--muted-foreground))",
         },
+        accent: {
+          DEFAULT: "hsl(var(--accent))",
+          foreground: "hsl(var(--accent-foreground))",
+        },
+        hero: {
+          DEFAULT: "hsl(var(--hero-bg))",
+          foreground: "hsl(var(--hero-foreground))",
+        },
+        "section-alt": "hsl(var(--section-alt))",
       },
       fontFamily: {
         display: ["'Space Grotesk Variable'", "sans-serif"],
         sans: ["'Inter Variable'", "sans-serif"],
       },
-      boxShadow: {
-        cyan: "0 0 30px hsl(188 95% 43% / 0.3)",
-        "cyan-strong": "0 0 50px hsl(188 95% 43% / 0.4)",
-        strong: "0 20px 50px hsl(0 0% 0% / 0.5)",
-      },
       keyframes: {
-        // Rings are centered with margins, not translate, so scaling here
-        // can't clobber their positioning (transform is one property).
-        sonar: {
-          "0%": { transform: "scale(0.1)", opacity: "0.8" },
-          "100%": { transform: "scale(1)", opacity: "0" },
+        "fade-up": {
+          "0%": { opacity: "0", transform: "translateY(16px)" },
+          "100%": { opacity: "1", transform: "translateY(0)" },
         },
-        wave: {
-          "0%, 100%": { transform: "scale(1)" },
-          "50%": { transform: "scale(1.05)" },
+        float: {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(-12px)" },
         },
       },
       animation: {
-        sonar: "sonar 4s ease-out infinite",
-        wave: "wave 20s ease-in-out infinite",
+        "fade-up": "fade-up 0.7s ease-out forwards",
+        float: "float 6s ease-in-out infinite",
       },
     },
   },

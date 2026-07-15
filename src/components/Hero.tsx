@@ -1,108 +1,104 @@
-import { motion, useReducedMotion } from "framer-motion";
-import { ArrowRight, ChevronDown } from "lucide-react";
-import heroOcean from "../assets/hero-ocean.jpg";
-import { hero, site } from "../data/content";
+import { hero, heroStats } from "../data/content";
 
-/** Expanding sonar rings behind the headline — the "see the unseen" motif.
- *  Centered via negative margins (an animated transform would clobber a
- *  translate utility), naturally opacity-0 (so reduced-motion shows nothing),
- *  and staggered with negative delays (no un-animated first paint). */
-function SonarRings() {
-  return (
-    <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
-      {[0, 1, 2].map((i) => (
-        <div
-          key={i}
-          className="absolute left-1/2 top-1/2 -ml-[30rem] -mt-[30rem] h-[60rem] w-[60rem] animate-sonar rounded-full border border-primary/40 opacity-0"
-          style={{ animationDelay: `${-i * 1.4}s` }}
-        />
-      ))}
-    </div>
-  );
-}
+const heroVideo = `${import.meta.env.BASE_URL}videos/hero.mp4`;
 
-export default function Hero() {
-  const reduceMotion = useReducedMotion();
-  const fadeUp = (delay: number) => ({
-    initial: reduceMotion ? false : { opacity: 0, y: 24 },
-    animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.7, delay, ease: "easeOut" as const },
-  });
+const Hero = () => {
+  const scrollToContact = () =>
+    document.querySelector("#contact")?.scrollIntoView({ behavior: "smooth" });
 
   return (
-    <section id="top" className="min-h-viewport relative flex items-center justify-center overflow-hidden">
-      {/* Background */}
+    <section className="bg-hero relative overflow-hidden pt-16">
+      {/* subtle dotted texture */}
       <div
-        className="absolute inset-0 animate-wave bg-cover bg-center"
-        style={{ backgroundImage: `url(${heroOcean})` }}
+        className="absolute inset-0 opacity-[0.03]"
+        style={{
+          backgroundImage: "radial-gradient(hsl(var(--primary)) 1px, transparent 1px)",
+          backgroundSize: "32px 32px",
+        }}
       />
-      <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-background/60 to-background" />
-      <div className="absolute inset-0 grid-pattern opacity-40" />
-      <SonarRings />
 
-      {/* Content */}
-      <div className="container relative z-10 pb-24 pt-36 text-center">
-        <motion.div {...fadeUp(0)}>
-          <span className="mb-8 inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-1.5 font-mono text-xs uppercase tracking-[0.3em] text-primary">
-            <span className="relative flex h-2 w-2">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-75" />
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-primary" />
-            </span>
-            {hero.badge}
-          </span>
-        </motion.div>
+      <div className="container mx-auto px-4 lg:px-8 py-20 md:py-28 relative z-10">
+        <div className="grid lg:grid-cols-5 gap-12 items-center mb-16">
+          <div className="lg:col-span-3 opacity-0 animate-fade-up">
+            <div className="inline-flex items-center gap-2 rounded-full border border-accent/40 bg-accent/10 px-4 py-1.5 mb-6">
+              <span className="w-2 h-2 rounded-full bg-accent animate-pulse" />
+              <span className="text-xs font-medium text-hero-foreground">
+                {hero.badge}
+              </span>
+            </div>
 
-        <motion.h1
-          {...fadeUp(0.15)}
-          className="font-display text-5xl font-bold uppercase leading-[1.05] tracking-tight sm:text-6xl md:text-7xl lg:text-8xl"
+            <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
+              {hero.titleLines.map((line) => (
+                <span key={line}>
+                  {line}
+                  <br />
+                </span>
+              ))}
+              <span className="text-gradient">{hero.titleGradient}</span>
+            </h1>
+
+            <p className="text-lg md:text-xl text-hero-foreground/80 max-w-2xl leading-relaxed">
+              {hero.description1}
+              <br />
+              {hero.description2}
+            </p>
+
+            <button
+              onClick={scrollToContact}
+              className="mt-8 rounded-lg bg-accent hover:bg-accent/90 text-accent-foreground font-semibold text-base px-8 py-3.5 transition-colors"
+            >
+              {hero.cta}
+            </button>
+          </div>
+
+          <div className="lg:col-span-2 flex flex-col gap-4">
+            {heroStats.map((stat, i) => (
+              <div
+                key={stat.value}
+                className="opacity-0 animate-fade-up flex items-center gap-4 rounded-xl border border-white/10 bg-white/5 backdrop-blur-sm p-5"
+                style={{ animationDelay: `${200 + i * 150}ms` }}
+              >
+                <div className="flex-shrink-0 w-11 h-11 rounded-lg bg-accent/15 flex items-center justify-center">
+                  <stat.icon className="w-5 h-5 text-accent" />
+                </div>
+                <div>
+                  <span className="text-2xl md:text-3xl font-bold text-hero-foreground">
+                    {stat.value}
+                  </span>
+                  <p className="text-xs font-medium tracking-wide text-hero-foreground/60 mt-0.5">
+                    {stat.label}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div
+          className="opacity-0 animate-fade-up w-full max-w-5xl mx-auto"
+          style={{ animationDelay: "400ms" }}
         >
-          {hero.headline}{" "}
-          <span className="text-primary text-glow">{hero.headlineHighlight}</span>
-        </motion.h1>
-
-        <motion.p
-          {...fadeUp(0.3)}
-          className="mx-auto mt-6 max-w-2xl text-xl text-muted-foreground md:text-2xl"
-        >
-          {hero.description}
-        </motion.p>
-
-        <motion.div {...fadeUp(0.45)} className="mt-10 flex flex-wrap items-center justify-center gap-4">
-          <a
-            href="#console"
-            className="group inline-flex items-center gap-2 rounded-md bg-primary px-8 py-3.5 font-medium text-primary-foreground shadow-cyan transition-all hover:shadow-cyan-strong"
-          >
-            {hero.ctaPrimary}
-            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-          </a>
-          <a
-            href={`mailto:${site.email}`}
-            className="inline-flex items-center gap-2 rounded-md border border-border bg-background/50 px-8 py-3.5 font-medium backdrop-blur transition-all hover:border-primary/50 hover:text-primary"
-          >
-            {hero.ctaSecondary}
-          </a>
-        </motion.div>
-
-        <motion.ul
-          {...fadeUp(0.6)}
-          className="mt-14 flex flex-wrap items-center justify-center gap-x-3 gap-y-2 font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground/80"
-        >
-          {hero.capabilities.map((capability, i) => (
-            <li key={capability} className="flex items-center gap-3">
-              {i > 0 && <span aria-hidden className="h-1 w-1 rounded-full bg-primary/60" />}
-              {capability}
-            </li>
-          ))}
-        </motion.ul>
+          <div className="relative">
+            <div className="w-full aspect-video rounded-2xl overflow-hidden border border-primary/20">
+              <video
+                src={heroVideo}
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <div className="absolute -top-4 -right-4 w-16 h-16 rounded-lg bg-accent/20 border border-accent/30 animate-float" />
+            <div
+              className="absolute -bottom-6 -left-6 w-12 h-12 rounded-full bg-primary/20 border border-primary/30 animate-float"
+              style={{ animationDelay: "1.5s" }}
+            />
+          </div>
+        </div>
       </div>
-
-      <a
-        href="#mission"
-        aria-label="Scroll to content"
-        className="absolute bottom-8 left-1/2 z-10 -translate-x-1/2 text-muted-foreground transition-colors hover:text-primary"
-      >
-        <ChevronDown className="h-7 w-7 animate-bounce" />
-      </a>
     </section>
   );
-}
+};
+
+export default Hero;
