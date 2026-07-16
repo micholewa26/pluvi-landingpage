@@ -1,6 +1,22 @@
 import { useState, type FormEvent } from "react";
-import { Send } from "lucide-react";
+import { Loader2, Send } from "lucide-react";
 import { company, contactSection } from "../data/content";
+
+// FormSubmit.co delivers submissions as e-mails to the company inbox without
+// any backend; the address must be activated once via the link FormSubmit
+// sends after the first submission.
+const FORM_ENDPOINT = `https://formsubmit.co/ajax/${"kontakt@pluvi.pl"}`;
+
+const optionLabels: Record<string, string> = {
+  "1-3": "1–3",
+  "4-10": "4–10",
+  wiecej: "Więcej",
+  "ochrona-antyprzymrozkowa": "Ochrona antyprzymrozkowa",
+  "systemy-nawadniania": "Systemy nawadniania",
+  inne: "Inne",
+  sady: "Sady",
+  "pola-uprawne": "Pola uprawne",
+};
 
 type FormState = {
   name: string;
@@ -35,6 +51,8 @@ const Contact = () => {
   const [form, setForm] = useState<FormState>(initialForm);
   const [errors, setErrors] = useState<Partial<Record<keyof FormState, string>>>({});
   const [sent, setSent] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [sendError, setSendError] = useState(false);
 
   const set = <K extends keyof FormState>(key: K, value: FormState[K]) =>
     setForm((f) => ({ ...f, [key]: value }));
@@ -56,26 +74,39 @@ const Contact = () => {
     return Object.keys(e).length === 0;
   };
 
-  const handleSubmit = (event: FormEvent) => {
+  const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
-    if (!validate()) return;
+    if (!validate() || sending) return;
 
-    const body = [
-      `Imię i nazwisko / Firma: ${form.name}`,
-      form.email && `E-mail: ${form.email}`,
-      form.phone && `Telefon: ${form.phone}`,
-      `Ilość pomp: ${form.pumpCount}`,
-      `Zastosowanie: ${form.application}`,
-      `Rodzaj uprawy: ${form.cropType === "inne" ? form.cropTypeOther : form.cropType}`,
-      form.message && `Wiadomość: ${form.message}`,
-    ]
-      .filter(Boolean)
-      .join("\n");
-
-    window.location.href = `mailto:${company.email}?subject=${encodeURIComponent(
-      "Zapytanie ze strony pluvi.pl"
-    )}&body=${encodeURIComponent(body)}`;
-    setSent(true);
+    setSending(true);
+    setSendError(false);
+    try {
+      const response = await fetch(FORM_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({
+          _subject: `Zapytanie ze strony pluvi.pl — ${form.name}`,
+          _template: "table",
+          _captcha: "false",
+          "Imię i nazwisko / Firma": form.name,
+          "E-mail": form.email || "—",
+          Telefon: form.phone || "—",
+          "Ilość pomp": optionLabels[form.pumpCount] ?? form.pumpCount,
+          Zastosowanie: optionLabels[form.application] ?? form.application,
+          "Rodzaj uprawy":
+            form.cropType === "inne"
+              ? form.cropTypeOther
+              : optionLabels[form.cropType] ?? form.cropType,
+          Wiadomość: form.message || "—",
+        }),
+      });
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      setSent(true);
+    } catch {
+      setSendError(true);
+    } finally {
+      setSending(false);
+    }
   };
 
   return (
@@ -95,12 +126,7 @@ const Contact = () => {
                 <p className="text-2xl mb-3">✅</p>
                 <h3 className="font-display text-xl font-bold mb-2">Dziękujemy!</h3>
                 <p className="text-muted-foreground text-sm">
-                  Otworzyliśmy Twój program pocztowy z gotową wiadomością — wystarczy ją
-                  wysłać. Możesz też napisać bezpośrednio na{" "}
-                  <a href={`mailto:${company.email}`} className="text-primary hover:underline">
-                    {company.email}
-                  </a>
-                  .
+                  Twoje zapytanie zostało wysłane. Skontaktujemy się wkrótce.
                 </p>
               </div>
             ) : (
@@ -261,12 +287,23 @@ const Contact = () => {
                 </div>
                 {errors.consent && <p className="text-xs -mt-3 text-red-600">{errors.consent}</p>}
 
+                {sendError && (
+                  <p className="text-sm text-red-600 font-medium">
+                    Nie udało się wysłać zapytania. Spróbuj ponownie lub napisz na{" "}
+                    <a href={`mailto:${company.email}`} className="underline">
+                      {company.email}
+                    </a>
+                    .
+                  </p>
+                )}
+
                 <button
                   type="submit"
-                  className="w-full flex items-center justify-center gap-2 rounded-lg bg-accent hover:bg-accent/90 text-accent-foreground font-semibold text-base py-3.5 transition-colors"
+                  disabled={sending}
+                  className="w-full flex items-center justify-center gap-2 rounded-lg bg-accent hover:bg-accent/90 text-accent-foreground font-semibold text-base py-3.5 transition-colors disabled:opacity-60"
                 >
-                  <Send size={18} />
-                  Wyślij zapytanie
+                  {sending ? <Loader2 size={18} className="animate-spin" /> : <Send size={18} />}
+                  {sending ? "Wysyłanie..." : "Wyślij zapytanie"}
                 </button>
               </form>
             )}
