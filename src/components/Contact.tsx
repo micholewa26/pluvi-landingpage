@@ -2,10 +2,9 @@ import { useState, type FormEvent } from "react";
 import { Loader2, Send } from "lucide-react";
 import { company, contactSection } from "../data/content";
 
-// FormSubmit.co delivers submissions as e-mails to the company inbox without
-// any backend; the address must be activated once via the link FormSubmit
-// sends after the first submission.
-const FORM_ENDPOINT = `https://formsubmit.co/ajax/${"kontakt@pluvi.pl"}`;
+// Własny endpoint PHP na hostingu home.pl (formularz/send.php) — zgłoszenia
+// idą mailem na kontakt@pluvi.pl bez udziału firm trzecich.
+const FORM_ENDPOINT = "https://serwer2614532.home.pl/formularz/send.php";
 
 const optionLabels: Record<string, string> = {
   "1-3": "1–3",
@@ -53,6 +52,7 @@ const Contact = () => {
   const [sent, setSent] = useState(false);
   const [sending, setSending] = useState(false);
   const [sendError, setSendError] = useState(false);
+  const [honeypot, setHoneypot] = useState("");
 
   const set = <K extends keyof FormState>(key: K, value: FormState[K]) =>
     setForm((f) => ({ ...f, [key]: value }));
@@ -85,19 +85,15 @@ const Contact = () => {
         method: "POST",
         headers: { "Content-Type": "application/json", Accept: "application/json" },
         body: JSON.stringify({
-          _subject: `Zapytanie ze strony pluvi.pl — ${form.name}`,
-          _template: "table",
-          _captcha: "false",
-          "Imię i nazwisko / Firma": form.name,
-          "E-mail": form.email || "—",
-          Telefon: form.phone || "—",
-          "Ilość pomp": optionLabels[form.pumpCount] ?? form.pumpCount,
-          Zastosowanie: optionLabels[form.application] ?? form.application,
-          "Rodzaj uprawy":
-            form.cropType === "inne"
-              ? form.cropTypeOther
-              : optionLabels[form.cropType] ?? form.cropType,
-          Wiadomość: form.message || "—",
+          name: form.name,
+          email: form.email,
+          phone: form.phone,
+          pumpCount: optionLabels[form.pumpCount] ?? form.pumpCount,
+          application: optionLabels[form.application] ?? form.application,
+          cropType: optionLabels[form.cropType] ?? form.cropType,
+          cropTypeOther: form.cropTypeOther,
+          message: form.message,
+          _gotcha: honeypot,
         }),
       });
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
@@ -131,6 +127,17 @@ const Contact = () => {
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-5" noValidate>
+                {/* Honeypot antyspamowy — pole niewidoczne dla ludzi. */}
+                <input
+                  type="text"
+                  name="_gotcha"
+                  value={honeypot}
+                  onChange={(e) => setHoneypot(e.target.value)}
+                  tabIndex={-1}
+                  autoComplete="off"
+                  className="hidden"
+                  aria-hidden="true"
+                />
                 <div>
                   <label htmlFor="name" className={labelClass}>
                     Imię i nazwisko / Firma *
