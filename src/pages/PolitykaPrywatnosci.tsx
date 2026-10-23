@@ -12,16 +12,17 @@ const PolitykaPrywatnosci = () => (
     <p>
       Niniejsza Polityka Prywatności określa zasady przetwarzania i ochrony danych
       osobowych Użytkowników serwisu internetowego pluvi.pl, prowadzonego przez Pluvi
-      sp. z o.o. z siedzibą w Lublinie, NIP: {company.nip}, KRS: {company.krs}.
+      sp. z o.o. z siedzibą w Lublinie, adres: {company.address}, NIP: {company.nip}, KRS: {company.krs}.
     </p>
     <p className="text-muted-foreground text-xs">
-      Data ostatniej aktualizacji: 17 marca 2026 r.
+      Data ostatniej aktualizacji: 23 października 2026 r.
     </p>
 
     <section>
       <h2>1. Administrator danych osobowych</h2>
       <p>
         Administratorem danych osobowych jest Pluvi sp. z o.o. z siedzibą w Lublinie,
+        adres: {company.address},
         wpisana do rejestru przedsiębiorców Krajowego Rejestru Sądowego pod numerem KRS:
         {" "}{company.krs}, NIP: {company.nip}.
       </p>

@@ -12,16 +12,17 @@ const Regulamin = () => (
     <p>
       Niniejszy Regulamin określa zasady korzystania z serwisu internetowego dostępnego
       pod adresem pluvi.pl, prowadzonego przez spółkę Pluvi sp. z o.o. z siedzibą w
-      Lublinie, wpisaną do rejestru przedsiębiorców KRS pod numerem {company.krs}, NIP:
+      Lublinie, adres: {company.address}, wpisaną do rejestru przedsiębiorców KRS pod numerem {company.krs}, NIP:
       {" "}{company.nip} (dalej: Usługodawca).
     </p>
     <p className="text-muted-foreground text-xs">Data wejścia w życie: 17 marca 2026 r.</p>
+    <p className="text-muted-foreground text-xs">Data ostatniej aktualizacji: 23 października 2026 r.</p>
 
     <section>
       <h2>§ 1. Postanowienia ogólne</h2>
       <p>
         Serwis internetowy dostępny pod adresem pluvi.pl jest prowadzony przez Pluvi sp.
-        z o.o. z siedzibą w Lublinie.
+        z o.o. z siedzibą w Lublinie, adres: {company.address}.
       </p>
       <p>
         Serwis ma charakter informacyjno-prezentacyjny i umożliwia zapoznanie się z
@@ -40,7 +41,7 @@ const Regulamin = () => (
       <ul>
         <li>
           <strong>Usługodawca</strong> – Pluvi sp. z o.o., NIP: {company.nip}, KRS:
-          {" "}{company.krs}, z siedzibą w Lublinie.
+          {" "}{company.krs}, z siedzibą w Lublinie, adres: {company.address}.
         </li>
         <li>
           <strong>Użytkownik</strong> – każda osoba fizyczna, prawna lub jednostka

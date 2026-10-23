@@ -3,3 +3,9 @@ dist
 *.local
 .DS_Store
 npm-debug.log*
+
+# Local design previews, image masters and internal content review.
+/photo-preview.png
+/style-tile.html
+/src/assets/configurator-masters/
+/docs/audyt-tresci-*.txt

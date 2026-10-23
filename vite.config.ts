@@ -1,9 +1,9 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 
-// Relative base so the build works both at vector-baltic.github.io/vb_landingpage/
-// and at the custom domain root (vectorb.one) without changes.
+// GitHub Actions overrides the base with the path configured for GitHub Pages.
+// Local builds default to the domain root, including nested route entry documents.
 export default defineConfig({
-  base: "./",
+  base: "/",
   plugins: [react()],
 });

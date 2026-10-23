@@ -1,104 +1,45 @@
+import { Link } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import { ArrowDown, ArrowUpRight, Pause, Play } from "lucide-react";
 import { hero, heroStats } from "../data/content";
 
-const heroVideo = `${import.meta.env.BASE_URL}videos/hero.mp4`;
-
 const Hero = () => {
-  const scrollToContact = () =>
-    document.querySelector("#contact")?.scrollIntoView({ behavior: "smooth" });
-
+  const section = useRef<HTMLElement>(null);
+  const video = useRef<HTMLVideoElement>(null);
+  const reduced = useReducedMotion();
+  const [playing, setPlaying] = useState(false);
+  const { scrollYProgress } = useScroll({ target: section, offset: ["start start", "end start"] });
+  const scale = useTransform(scrollYProgress, [0, 1], [1.08, 1]);
+  useEffect(() => {
+    if (reduced) video.current?.pause();
+    else video.current?.play().catch(() => setPlaying(false));
+  }, [reduced]);
   return (
-    <section className="bg-hero relative overflow-hidden pt-16">
-      {/* subtle dotted texture */}
-      <div
-        className="absolute inset-0 opacity-[0.03]"
-        style={{
-          backgroundImage: "radial-gradient(hsl(var(--primary)) 1px, transparent 1px)",
-          backgroundSize: "32px 32px",
-        }}
-      />
-
-      <div className="container mx-auto px-4 lg:px-8 py-20 md:py-28 relative z-10">
-        <div className="grid lg:grid-cols-5 gap-12 items-center mb-16">
-          <div className="lg:col-span-3 opacity-0 animate-fade-up">
-            <div className="inline-flex items-center gap-2 rounded-full border border-accent/40 bg-accent/10 px-4 py-1.5 mb-6">
-              <span className="w-2 h-2 rounded-full bg-accent animate-pulse" />
-              <span className="text-xs font-medium text-hero-foreground">
-                {hero.badge}
-              </span>
-            </div>
-
-            <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
-              {hero.titleLines.map((line) => (
-                <span key={line}>
-                  {line}
-                  <br />
-                </span>
-              ))}
-              <span className="text-gradient">{hero.titleGradient}</span>
-            </h1>
-
-            <p className="text-lg md:text-xl text-hero-foreground/80 max-w-2xl leading-relaxed">
-              {hero.description1}
-              <br />
-              {hero.description2}
-            </p>
-
-            <button
-              onClick={scrollToContact}
-              className="mt-8 rounded-lg bg-accent hover:bg-accent/90 text-accent-foreground font-semibold text-base px-8 py-3.5 transition-colors"
-            >
-              {hero.cta}
-            </button>
-          </div>
-
-          <div className="lg:col-span-2 flex flex-col gap-4">
-            {heroStats.map((stat, i) => (
-              <div
-                key={stat.value}
-                className="opacity-0 animate-fade-up flex items-center gap-4 rounded-xl border border-white/10 bg-white/5 backdrop-blur-sm p-5"
-                style={{ animationDelay: `${200 + i * 150}ms` }}
-              >
-                <div className="flex-shrink-0 w-11 h-11 rounded-lg bg-accent/15 flex items-center justify-center">
-                  <stat.icon className="w-5 h-5 text-accent" />
-                </div>
-                <div>
-                  <span className="text-2xl md:text-3xl font-bold text-hero-foreground">
-                    {stat.value}
-                  </span>
-                  <p className="text-xs font-medium tracking-wide text-hero-foreground/60 mt-0.5">
-                    {stat.label}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
+    <section ref={section} className="cinema-hero" aria-labelledby="hero-title">
+      <motion.div className="cinema-media" style={{ scale: reduced ? 1 : scale }}>
+        <video ref={video} src={`${import.meta.env.BASE_URL}videos/hero.mp4`} muted loop playsInline preload="metadata" onPlay={() => setPlaying(true)} onPause={() => setPlaying(false)} aria-hidden="true" />
+      </motion.div>
+      <div className="cinema-shade" />
+      <div className="cinema-content">
+        <div className="hero-eyebrow"><span /> PLUVI / {hero.badge}</div>
+        <h1 id="hero-title">{hero.titleLines.map((line, i) => <span key={line} className={i === 2 ? "hero-soft" : ""}>{line}.</span>)}</h1>
+        <p className="hero-intro">{hero.description2}</p>
+        <div className="hero-actions">
+          <Link to="/konfigurator" className="hero-primary">Dobierz swój zestaw<ArrowUpRight size={19} /></Link>
+          <Link to="/system" className="hero-secondary">Poznaj system <ArrowUpRight size={17} /></Link>
         </div>
-
-        <div
-          className="opacity-0 animate-fade-up w-full max-w-5xl mx-auto"
-          style={{ animationDelay: "400ms" }}
-        >
-          <div className="relative">
-            <div className="w-full aspect-video rounded-2xl overflow-hidden border border-primary/20">
-              <video
-                src={heroVideo}
-                autoPlay
-                loop
-                muted
-                playsInline
-                className="w-full h-full object-cover"
-              />
-            </div>
-            <div className="absolute -top-4 -right-4 w-16 h-16 rounded-lg bg-accent/20 border border-accent/30 animate-float" />
-            <div
-              className="absolute -bottom-6 -left-6 w-12 h-12 rounded-full bg-primary/20 border border-primary/30 animate-float"
-              style={{ animationDelay: "1.5s" }}
-            />
-          </div>
-        </div>
+      </div>
+      <div className="hero-caption"><span>TECHNOLOGIA BLISKO NATURY</span><span>Twój sad. Pod kontrolą.</span></div>
+      <button type="button" className="hero-play" aria-label={playing ? "Wstrzymaj film w tle" : "Odtwórz film w tle"} onClick={() => { if (playing) video.current?.pause(); else video.current?.play().catch(() => setPlaying(false)); }}>
+        {playing ? <Pause size={15} /> : <Play size={15} />}
+      </button>
+      <div className="hero-bottom">
+        <a href="#overview" className="hero-scroll"><ArrowDown size={19} /><span>Spokojniej w sadzie.<br />Prościej na co dzień.</span></a>
+        <div className="hero-facts">{heroStats.map(stat => <div className="hero-fact" key={stat.value}><stat.icon size={19} /><div><strong>{stat.value}</strong><span>{stat.label}</span></div></div>)}</div>
       </div>
     </section>
   );
 };
-
 export default Hero;
+

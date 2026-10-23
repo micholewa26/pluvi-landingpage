@@ -2,8 +2,6 @@ import {
   Activity,
   BarChart3,
   CalendarCheck,
-  Cog,
-  Droplets,
   Layers,
   MapPin,
   ShieldCheck,
@@ -13,15 +11,14 @@ import {
   type LucideIcon,
 } from "lucide-react";
 
-import motopompaImg from "../assets/motopompa.png";
-import agregatImg from "../assets/agregat-elektryczny.png";
-import inneImg from "../assets/inne-urzadzenia.png";
 
 export const navLinks = [
-  { label: "O systemie", href: "#value" },
-  { label: "Zastosowanie", href: "#applications" },
-  { label: "Komponenty", href: "#modules" },
-  { label: "Kontakt", href: "#contact" },
+  { label: "Start", href: "/" },
+  { label: "O nas", href: "/o-nas" },
+  { label: "System", href: "/system" },
+  { label: "Pompy", href: "/pompy" },
+  { label: "Konfigurator", href: "/konfigurator" },
+  { label: "Kontakt", href: "/kontakt" },
 ];
 
 export const hero = {
@@ -31,14 +28,14 @@ export const hero = {
   description1:
     "System ochrony antyprzymrozkowej i nawadniania w sadownictwie rozproszonym zawsze pod ręką!",
   description2:
-    "Automatyczne alerty, zdalna kontrola i bezpieczeństwo upraw bez wychodzenia z domu.",
-  cta: "Zgłoś się do pilotażu",
+    "Zdalny start i stop pompy, pomiary oraz alerty w aplikacji. Mniej dojazdów, więcej kontroli nad instalacją.",
+  cta: "Dobierz swój zestaw",
 };
 
 export const heroStats: { value: string; label: string; icon: LucideIcon }[] = [
-  { value: "OFF-GRID", label: "NIE WYMAGA PRĄDU ANI WI-FI", icon: Zap },
-  { value: "24/7", label: "MONITORING W CZASIE RZECZYWISTYM", icon: Activity },
-  { value: "-40%", label: "ZUŻYCIE PALIWA", icon: BarChart3 },
+  { value: "START / STOP", label: "ZDALNE STEROWANIE POMPĄ", icon: Zap },
+  { value: "POMIARY", label: "INFORMACJE O PRACY INSTALACJI", icon: Activity },
+  { value: "ALERTY", label: "POWIADOMIENIA W APLIKACJI", icon: BarChart3 },
 ];
 
 export const valueSection = {
@@ -51,134 +48,92 @@ export const valueCards: { icon: LucideIcon; title: string; desc: string }[] = [
   {
     icon: Activity,
     title: "Nadzór pracy urządzenia",
-    desc: "Stała informacja o statusie pracy, pomiary temperatury i wilgotności gleby oraz ochrona przed suchobiegiem.",
+    desc: "Sprawdzaj status pracy pompy i ciśnienie wody. Pomiary temperatury oraz wilgotności gleby dobierz jako dodatkowe wyposażenie zestawu.",
   },
   {
     icon: Layers,
     title: "Spójny ekosystem",
-    desc: "Jedna aplikacja i jeden uniwersalny sterownik. Zyskaj pełen monitoring i możliwość sterowania motopompami spalinowymi oraz zestawami współpracującymi z agregatem prądotwórczym.",
+    desc: "Jeden sterownik dla pomp spalinowych typu GX 160 i GX 270, pomp elektrycznych oraz indywidualnie integrowanych urządzeń.",
   },
   {
     icon: Smartphone,
     title: "Intuicyjna aplikacja",
-    desc: "Intuicyjna i prosta aplikacja połączona ze sterownikiem pozwala na pełne sterowanie nawadnianiem i systemem ochrony antyprzymrozkowej bez potrzeby kupowania osobnych urządzeń.",
+    desc: "Uruchamiaj i zatrzymuj pompę, odczytuj pomiary i odbieraj alarmy z poziomu aplikacji połączonej ze sterownikiem PLUVI.",
   },
   {
     icon: ShieldCheck,
-    title: "Niezawodność",
-    desc: "Projektowane z myślą o pracy w terenie — odporne na kurz, wilgoć i zmienne warunki pogodowe typowe dla sadu i pola. Wspomaganie decyzji oraz automatyczne włączanie urządzeń przy wykryciu przymrozków.",
+    title: "Dopasowanie do instalacji",
+    desc: "Sposób podłączenia i zakres pomiarów dopasowujemy do urządzenia oraz warunków w gospodarstwie.",
   },
 ];
 
 export const demoFeatures = [
   {
     icon: "💧",
-    title: "Wykrycie suchobiegu",
-    desc: "Czujnik wykrywa pracę pompy bez wody — natychmiastowy alert i zatrzymanie",
+    title: "Ciśnienie wody",
+    desc: "Podgląd ciśnienia w instalacji i informacji o nieprawidłowej pracy pompy",
   },
   {
     icon: "🌡️",
     title: "Środowisko",
-    desc: "Temperatura zewnętrzna, wilgotność powietrza i gleby przy każdej pompie",
+    desc: "Opcjonalne pomiary: termometr suchy i mokry oraz wilgotność gleby",
   },
   {
     icon: "⛽",
-    title: "Paliwo i akumulator",
-    desc: "Poziom paliwa w zbiorniku oraz stan naładowania akumulatora",
+    title: "Poziom paliwa",
+    desc: "W zestawach spalinowych: zbiornik 25 l z pomiarem poziomu paliwa",
   },
   {
     icon: "📊",
-    title: "Analityka",
-    desc: "Czas pracy pomp i zużycie paliwa w ujęciu miesięcznym",
-  },
-];
-
-export const applicationsSection = {
-  sub: "Nasz system sterowania i monitoringu sprawdza się w rozproszonych i trudnych warunkach: w sadach, polach uprawnych i nie tylko...",
-};
-
-export const applications: {
-  id: string;
-  label: string;
-  icon: LucideIcon;
-  image: string;
-  title: string;
-  desc: string;
-  features: string[];
-}[] = [
-  {
-    id: "motopompy",
-    label: "Motopompy",
-    icon: Droplets,
-    image: motopompaImg,
-    title: "Sterowanie motopompami",
-    desc: "Pełna kontrola nad pracą motopompy — od zdalnego rozruchu i gaszenia silnika, przez realizację ustalonych harmonogramów, aż po zaawansowaną analizę warunków pogodowych. System dba o bezpieczeństwo upraw i optymalne działanie samego urządzenia.",
-    features: [
-      "Zdalny rozruch i wyłączenie",
-      "Zarządzanie pracą za pomocą harmonogramów",
-      "Zabezpieczenie przed suchobiegiem",
-    ],
-  },
-  {
-    id: "agregaty",
-    label: "Agregaty elektryczne",
-    icon: Zap,
-    image: agregatImg,
-    title: "Zarządzanie agregatami",
-    desc: "Pełna kontrola nad pracą agregatu i pompy elektrycznej — od zdalnego rozruchu i gaszenia, przez realizację ustalonych harmonogramów, aż po zaawansowaną analizę warunków pogodowych. System dba o ciągłość zasilania, bezpieczeństwo upraw i optymalne działanie obu urządzeń.",
-    features: [
-      "Zdalny rozruch i wyłączenie",
-      "Zarządzanie pracą za pomocą harmonogramów",
-      "Monitorowanie stanu paliwa i wykrywanie anomalii",
-    ],
-  },
-  {
-    id: "inne",
-    label: "Inne urządzenia",
-    icon: Cog,
-    image: inneImg,
-    title: "Uniwersalne zastosowania",
-    desc: "Masz nietypowe urządzenie lub specyficzne wymagania? Nie ma problemu — nasz system jest w pełni modułowy i otwarty na nowe wyzwania. Opisz swoje potrzeby w formularzu kontaktowym, a nasi inżynierowie zaproponują rozwiązanie szyte na miarę.",
-    features: [
-      "Obsługa silników spalinowych i elektrycznych",
-      "Badanie parametrów pracy urządzenia i warunków otoczenia",
-      "Indywidualne podejście do każdego projektu",
-    ],
+    title: "Stan urządzeń",
+    desc: "Informacje o pracy pomp i zdarzeniach w jednym widoku aplikacji",
   },
 ];
 
 export const moduleSection = {
-  sub: "Jedna aplikacja i jeden uniwersalny sterownik. Zyskaj pełną kontrolę i monitoring nad motopompami, pompami elektrycznymi oraz współpracującymi z nimi agregatami prądotwórczymi.",
-  badge: "All-in-One",
-  title: "Sterownik Urządzenia",
-  desc: "Jeden system pomagający w nawadnianiu oraz chroniący przed przymrozkami. Jeden sterownik umożliwiający monitoring, start/stop, rozruch oraz nadzór poprawności pracy — dla pomp spalinowych (z kontrolą stanu paliwa), pomp elektrycznych oraz pomp elektrycznych współpracujących w zestawie z agregatem. Pomiar temperatury na polu (suchy/mokry) z możliwością dołączenia wilgotnościomierza.",
+  sub: "Pompy spalinowe typu GX 160 i GX 270, pompy elektryczne oraz własne urządzenia. Wybierz urządzenie i dobierz czujniki w konfiguratorze.",
+  badge: "PLUVI",
+  title: "Sterownik PLUVI",
+  desc: "Sterownik PLUVI zapewnia procedurę startu i pomiar ciśnienia wody w instalacji pompy. W pompach elektrycznych podłącza się go pomiędzy szafę sterującą a pompę. Zestawy spalinowe GX 160 i GX 270 zawierają zbiornik paliwa 25 l z pomiarem poziomu paliwa. Opcjonalnie dobierzesz pomiar wilgotności gleby oraz termometr suchy i mokry. Dla własnego urządzenia przygotowujemy indywidualną integrację.",
   chips: [
     "Start / Stop",
     "Monitoring & nadzór",
-    "Pompy spalinowe + stan paliwa",
-    "Pompy elektryczne & agregat",
-    "Pomiar temp. suchy & mokry",
-    "Wilgotnościomierz",
+    "GX 160 / GX 270",
+    "Spalinowe: zbiornik 25 l + pomiar paliwa",
+    "Ciśnienie wody",
+    "Opcja: termometr suchy i mokry",
+    "Opcja: wilgotność gleby",
   ],
 };
 
 export const contactSection = {
-  sub: "Umów się na test systemu w swoim sadzie. Wypełnij formularz, a skontaktujemy się z Tobą i prześlemy dla Ciebie indywidualną ofertę.",
+  sub: "Dobierz PLUVI do swojego gospodarstwa. Opisz pompę i instalację, a skontaktujemy się z Tobą, żeby ustalić zakres zestawu i indywidualną ofertę.",
   benefits: [
-    { icon: CalendarCheck, text: "Darmowa konsultacja techniczna" },
-    { icon: UserCheck, text: "Dedykowany opiekun projektu" },
-    { icon: MapPin, text: "Prezentacja działania w terenie" },
+    { icon: CalendarCheck, text: "Omówienie potrzeb Twojej instalacji" },
+    { icon: UserCheck, text: "Kontakt bezpośrednio z zespołem PLUVI" },
+    { icon: MapPin, text: "Dobór zestawu do Twojego gospodarstwa" },
   ] as { icon: LucideIcon; text: string }[],
-  responseNote: "⚡ Średni czas odpowiedzi: poniżej 4 godzin",
+  responseNote: "Odpowiadamy na zapytania w terminie do 3 dni roboczych.",
 };
 
 export const company = {
   name: "PLUVI sp. z o.o.",
   email: "kontakt@pluvi.pl",
   phone: "+48 570 434 056",
-  address: "ul. Gospodarcza 26, 20-213 Lublin",
+  address: "Tomasza Zana 43, lok. 2.1, 20-601 Lublin",
   footerDesc:
-    "PLUVI sp. z o.o. — Nowoczesne systemy sterowania nawadnianiem i nie tylko! Projektujemy, produkujemy i wdrażamy.",
+    "PLUVI sp. z o.o. — Sterowanie pompami i pomiary dla sadownictwa. Dobieramy zestawy do urządzeń i potrzeb Twojego gospodarstwa.",
   nip: "9462763369",
   krs: "0001220603",
 };
+
+export const incubation = {
+  heading: "PLUVI — absolwent Unicorn Hub 2.0",
+  description: "Ukończyliśmy program inkubacji Platformy Startowej Unicorn Hub – Edycja II.",
+  award: "Nagroda Publiczności",
+  event: "Demo Day #5 · 19 czerwca 2026 · Warszawa",
+  awardDescription: "Podczas finału V rundy inkubacji PLUVI otrzymało Nagrodę Publiczności.",
+  reportUrl: "https://edycja2.unicornhub.pl/2026/06/21/zobacz-co-dzialo-sie-na-demo-day/",
+  funding: "PLUVI uczestniczyło w projekcie „Platforma Startowa Unicorn Hub – Edycja II”, współfinansowanym ze środków Unii Europejskiej w ramach programu Fundusze Europejskie dla Polski Wschodniej 2021–2027, Priorytet FEPW.01 Przedsiębiorczość i Innowacje, Działanie FEPW.01.01 Platformy startowe dla nowych pomysłów, Komponent I: Inkubacja – rozwój nowego pomysłu biznesowego.",
+};
+

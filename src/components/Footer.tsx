@@ -43,6 +43,11 @@ const Footer = () => (
         <div>
           <h4 className="font-display font-semibold mb-4">Informacje</h4>
           <div className="space-y-2 text-sm">
+            <Link to="/o-nas" className="block text-secondary-foreground/70 hover:text-white">O nas</Link>
+            <Link to="/system" className="block text-secondary-foreground/70 hover:text-white">System PLUVI</Link>
+            <Link to="/pompy" className="block text-secondary-foreground/70 hover:text-white">Pompy i urządzenia</Link>
+            <Link to="/konfigurator" className="block text-secondary-foreground/70 hover:text-white">Konfigurator zestawu</Link>
+            <Link to="/kontakt" className="block text-secondary-foreground/70 hover:text-white">Zapytaj o zestaw</Link>
             <Link
               to="/polityka-prywatnosci"
               className="block text-secondary-foreground/70 hover:text-primary transition-colors"

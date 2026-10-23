@@ -1,0 +1,9 @@
+{
+  "tool": "Built-in image_gen",
+  "source": "User-supplied IMG_6788.JPEG",
+  "master": "src/assets/configurator-masters/electric-pluvi.png",
+  "web": "public/images/configurator/electric-pluvi.webp",
+  "key": "electricPluvi",
+  "prompt": "Product visualization. Use supplied photo as authoritative reference ONLY for the PLUVI CONTROLLER: light gray rectangular weatherproof box, visible corner screws, exact white square sticker with dark blue PLUVI droplet logo, black slim antenna mounted left, cable glands right. Preserve its recognizable appearance. Create photorealistic isolated assembly of THREE physically separate objects arranged LEFT to RIGHT: tall closed gray electrical control cabinet, this specific PLUVI controller standing separately in center, and a black electric centrifugal water pump with silver pump casing on right. Controller must NOT be mounted on pump, NO other controller on the pump. Visible black cable connects cabinet to PLUVI box and another cable connects PLUVI box to pump. Clear gaps, controller large enough to recognize logo. Full objects, slightly elevated three-quarter view, soft white light with subtle cyan edge lighting, elegant dark/silver materials. Genuine transparent background. No orchard, no floor, no labels, no UI, no other text except preserved PLUVI logo. Wide 3:2 composition. Conceptual installation illustration.",
+  "note": "Conceptual installation. Separate PLUVI controller between cabinet and electric pump. Custom-machine variant rejected by user and not used."
+}

@@ -25,11 +25,11 @@ jobs:
         with:
           node-version: 22
           cache: npm
+      - id: pages
+        uses: actions/configure-pages@v5
       - run: npm ci
-      - run: npm run build
-      # Serve the landing page for mistyped single-segment paths instead of
-      # GitHub's unbranded 404.
-      - run: cp dist/index.html dist/404.html
+      - run: npm run build -- --base "${{ steps.pages.outputs.base_path }}/"
+      - run: node scripts/prepare-pages.mjs
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
@@ -41,8 +41,5 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - uses: actions/configure-pages@v5
-        with:
-          enablement: true
       - id: deployment
         uses: actions/deploy-pages@v4

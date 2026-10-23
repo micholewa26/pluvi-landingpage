@@ -1,6 +1,8 @@
 import { useState, type FormEvent } from "react";
 import { Loader2, Send } from "lucide-react";
 import { company, contactSection } from "../data/content";
+import { Link, useSearchParams } from "react-router-dom";
+import { configurationMessage } from "../data/configurator";
 
 // Własny endpoint PHP na hostingu home.pl (formularz/send.php) — zgłoszenia
 // idą mailem na kontakt@pluvi.pl bez udziału firm trzecich.
@@ -47,7 +49,9 @@ const inputClass =
 const labelClass = "block text-sm font-medium mb-1.5";
 
 const Contact = () => {
-  const [form, setForm] = useState<FormState>(initialForm);
+  const [params] = useSearchParams();
+  const configuredMessage = configurationMessage(params);
+  const [form, setForm] = useState<FormState>(() => ({ ...initialForm, message: configuredMessage }));
   const [errors, setErrors] = useState<Partial<Record<keyof FormState, string>>>({});
   const [sent, setSent] = useState(false);
   const [sending, setSending] = useState(false);
@@ -109,9 +113,9 @@ const Contact = () => {
     <section id="contact" className="py-20 md:py-28 bg-section-alt">
       <div className="container mx-auto px-4 lg:px-8">
         <div className="text-center max-w-2xl mx-auto mb-16">
-          <h2 className="font-display text-3xl md:text-4xl font-bold mb-4">
+          <h1 className="font-display text-3xl md:text-4xl font-bold mb-4">
             Skontaktuj się <span className="text-gradient">z nami</span>
-          </h2>
+          </h1>
           <p className="text-muted-foreground text-lg">{contactSection.sub}</p>
         </div>
 
@@ -127,6 +131,7 @@ const Contact = () => {
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-5" noValidate>
+                {configuredMessage && <div className="rounded-lg bg-accent/10 p-4 text-sm"><p className="font-semibold mb-2">Twój zestaw jest już w wiadomości poniżej.</p><Link className="underline underline-offset-4" to={`/konfigurator?${params.toString()}`}>Wróć do konfiguracji</Link></div>}
                 {/* Honeypot antyspamowy — pole niewidoczne dla ludzi. */}
                 <input
                   type="text"

@@ -1,5 +1,5 @@
 import { moduleSection } from "../data/content";
-import sterownikImg from "../assets/sterownik.png";
+import sterownikImg from "../assets/sterownik-pluvi-w-sadzie.jpg";
 
 const Module = () => (
   <section id="modules" className="py-20 md:py-28 bg-hero relative overflow-hidden">
@@ -19,14 +19,18 @@ const Module = () => (
       </div>
 
       <div className="flex justify-center max-w-5xl mx-auto">
-        <div className="w-full max-w-[600px] group relative bg-[hsl(220,30%,14%)] rounded-2xl border border-primary/30 p-6 md:p-8 shadow-[0_0_40px_-10px_hsl(var(--primary)/0.2)] hover:border-primary/50 hover:shadow-[0_0_60px_-10px_hsl(var(--primary)/0.3)] transition-all duration-300">
-          <div className="aspect-square rounded-xl bg-[hsl(220,25%,18%)] border border-primary/20 mb-6 overflow-hidden flex items-center justify-center p-4">
+        <div className="w-full grid md:grid-cols-2 items-center gap-7 lg:gap-12">
+          <figure className="relative aspect-[4/5] rounded-xl overflow-hidden bg-[hsl(220,25%,18%)]">
             <img
               src={sterownikImg}
-              alt="Sterownik PLUVI"
-              className="max-w-full max-h-full object-contain"
+              alt="Zbliżenie sterownika PLUVI z anteną i przewodami, zamontowanego na pompie w sadzie"
+              loading="lazy"
+              decoding="async"
+              className="w-full h-full object-cover object-[52%_50%]"
             />
-          </div>
+            <figcaption className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/75 to-transparent px-6 pt-16 pb-5 text-white text-xs tracking-wide">PLUVI / Sterownik w sadzie</figcaption>
+          </figure>
+          <div>
           <div className="inline-block px-3 py-1 rounded-full bg-accent/15 border border-accent/30 text-xs font-semibold text-accent mb-3">
             {moduleSection.badge}
           </div>
@@ -45,6 +49,7 @@ const Module = () => (
                 {chip}
               </span>
             ))}
+          </div>
           </div>
         </div>
       </div>

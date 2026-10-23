@@ -1,68 +1,14 @@
-import { useState } from "react";
-import { applications, applicationsSection } from "../data/content";
+import { Link } from "react-router-dom";
+import { pumpTypes } from "../data/configurator";
+import pumpPhoto from "../assets/pompa-pluvi-w-sadzie.jpg";
 
-const Applications = () => {
-  const [active, setActive] = useState(applications[0].id);
-  const current = applications.find((a) => a.id === active)!;
-
-  return (
-    <section id="applications" className="py-20 md:py-28">
-      <div className="container mx-auto px-4 lg:px-8">
-        <div className="text-center max-w-2xl mx-auto mb-16">
-          <h2 className="font-display text-3xl md:text-4xl font-bold mb-4">
-            <span className="text-gradient">Gdzie to działa?</span>
-          </h2>
-          <p className="text-muted-foreground text-lg">{applicationsSection.sub}</p>
-        </div>
-
-        <div className="max-w-4xl mx-auto">
-          <div
-            className="w-full grid grid-cols-3 h-auto bg-muted/60 p-1 rounded-xl"
-            role="tablist"
-          >
-            {applications.map((app) => (
-              <button
-                key={app.id}
-                role="tab"
-                aria-selected={active === app.id}
-                onClick={() => setActive(app.id)}
-                className={`flex items-center justify-center gap-2 py-3 rounded-lg font-medium text-sm transition-all ${
-                  active === app.id
-                    ? "bg-card shadow-md text-foreground"
-                    : "text-muted-foreground hover:text-foreground"
-                }`}
-              >
-                <app.icon size={18} />
-                <span className="hidden sm:inline">{app.label}</span>
-              </button>
-            ))}
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-8 mt-8 items-center">
-            <div className="aspect-[4/3] rounded-xl bg-muted border border-border flex items-center justify-center overflow-hidden">
-              <img
-                src={current.image}
-                alt={current.label}
-                className="w-full h-full object-contain p-4"
-              />
-            </div>
-            <div>
-              <h3 className="font-display text-2xl font-bold mb-4">{current.title}</h3>
-              <p className="text-muted-foreground mb-6 leading-relaxed">{current.desc}</p>
-              <ul className="space-y-3">
-                {current.features.map((feature) => (
-                  <li key={feature} className="flex items-center gap-3 text-sm">
-                    <span className="w-1.5 h-1.5 rounded-full bg-accent flex-shrink-0" />
-                    {feature}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-};
-
-export default Applications;
+export default function Applications() {
+  return <section className="site-page container mx-auto px-4 lg:px-8">
+    <p className="section-kicker">POMPY I URZĄDZENIA</p><h1 className="page-heading">Twoja pompa.<br />Pod kontrolą PLUVI.</h1>
+    <p className="page-intro">Pompy spalinowe typu GX 160 i GX 270, pompy elektryczne lub własne urządzenie. Wybierz wariant, a następnie dopasuj zestaw pomiarowy.</p>
+    <div className="pump-catalog">
+      <figure><img src={pumpPhoto} alt="Pompa spalinowa ze sterownikiem PLUVI w sadzie — przykładowa instalacja" className="w-full aspect-[4/5] object-cover object-[43%_50%] rounded-xl" /><figcaption className="text-xs text-muted-foreground mt-3">Przykładowa instalacja PLUVI w sadzie.</figcaption></figure>
+      <div className="grid sm:grid-cols-2 gap-4">{pumpTypes.map(p => <article key={p.id} className="device-teaser"><p.icon size={24} /><p className="section-kicker !mt-5 !mb-2">{p.kind}</p><h2 className="font-display text-2xl mb-3">{p.name}</h2><p className="text-sm text-muted-foreground leading-relaxed flex-1">{p.description}</p><Link to={`/konfigurator?model=${p.id}`} className="incubation-link mt-6">Dobierz zestaw ↗</Link></article>)}</div>
+    </div>
+  </section>;
+}

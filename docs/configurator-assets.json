@@ -1,0 +1,26 @@
+{
+  "tool": "Built-in image_gen",
+  "created": "2026-10-23",
+  "note": "Conceptual assets. Gasoline render shared by GX 160/GX 270; it is not model-specific CAD. Original source photo supplied by user. Soil and thermometer shapes illustrative.",
+  "prompts": [
+    {
+      "key": "pump",
+      "prompt": "Use case product-mockup. Create an isolated photorealistic premium 3D product visualization of the gasoline irrigation pump and its gray PLUVI controller shown in the supplied reference photograph. Preserve recognizable black engine, brushed silver tubular protective frame, gray rectangular control box on top with black antenna and PLUVI logo. Full entire device, slightly elevated front three-quarter view, sharp mechanical details, realistic black plastic and metal. Remove orchard and all ground. Genuine transparent background, clean alpha edges, no floor, no platform, no labels or text other than existing PLUVI product logo. Studio soft white key light with subtle cyan rim light suitable for compositing into dark navy futuristic configurator. Center subject, fills 85% of square image, no cropped antenna or frame. This is a conceptual product visualization, not a new engineered design.",
+      "referenced_image_paths": [
+        "C:\\Users\\Michalek\\Downloads\\IMG_6780.JPEG"
+      ]
+    },
+    {
+      "key": "soil",
+      "prompt": "Use case product-mockup. Single isolated photorealistic 3D asset for a futuristic irrigation configurator: a compact agricultural soil moisture probe physically inserted vertically into a small cutaway block of rich dark brown soil, a few blades of real grass on top. Show black waterproof probe head and short cable above soil, two stainless sensing prongs embedded inside the visible cutaway soil cross-section. Clear device in soil, highly legible at small display size. Elevated front three-quarter studio view, soft white key light and subtle cyan rim light. Entire soil block and probe centered, fills 85% of square frame. Genuine transparent background, no backdrop, no text, no labels, no numerals, no UI, no extra equipment. Realistic materials, elegant product render. Conceptual sensor illustration."
+    },
+    {
+      "key": "temperature",
+      "prompt": "Use case product-mockup. Single isolated photorealistic 3D asset for futuristic agricultural irrigation configurator: paired dry-bulb and wet-bulb thermometers in a compact open white weatherproof bracket on a short metal mast. Two slender identical thermometers side by side, wet bulb visibly wrapped in white wick reaching a small water reservoir, dry bulb exposed, white and brushed metal materials, realistic black cable from mounting base. Entire sensor assembly fully visible, elevated front three-quarter studio view, soft white key light and subtle cyan rim light, matches premium black/silver pump render. Genuine transparent background, fills 85% of square frame, no ground, no background, no extra objects, no text, no labels, no legible numbers, no UI. Conceptual sensor illustration."
+    },
+    {
+      "key": "electric",
+      "prompt": "Use case product-mockup. Single isolated photorealistic 3D product asset: agricultural electric centrifugal irrigation pump, black finned electric motor, brushed stainless steel pump head and inlet/outlet, silver base, gray rectangular control box above with slim black antenna. Clear electric motor rather than gasoline engine. Elevated front three-quarter studio camera, premium realistic black plastic and silver metal, soft white key light and cyan rim light for a dark futuristic product configurator. Whole device visible, center 85% of square composition, genuine transparent background, no floor, no text, no brand logo, no dimensions or UI. Conceptual product visualization."
+    }
+  ]
+}

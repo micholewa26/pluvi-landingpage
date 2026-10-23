@@ -30,28 +30,28 @@ type Pump = {
   id: number;
   nazwa: string;
   strefa: string;
-  typ: "diesel" | "elektryczna";
+  typ: "spalinowa" | "elektryczna";
   status: "praca" | "stop" | "awaria";
   woda: boolean;
   tempZewn: number;
-  wilgPow: number;
+  tempWet: number;
   wilgGleby: number;
   paliwo: number | null;
   akumulator: number;
 };
 
 const pumps: Pump[] = [
-  { id: 1, nazwa: "Sad #1", strefa: "Strefa A", typ: "diesel", status: "praca", woda: true, tempZewn: 7.4, wilgPow: 82, wilgGleby: 61, paliwo: 68, akumulator: 87 },
-  { id: 2, nazwa: "Sad #2", strefa: "Strefa A", typ: "diesel", status: "stop", woda: true, tempZewn: 7.2, wilgPow: 80, wilgGleby: 58, paliwo: 85, akumulator: 94 },
-  { id: 3, nazwa: "Winnica #2", strefa: "Strefa B", typ: "elektryczna", status: "awaria", woda: false, tempZewn: 6.9, wilgPow: 84, wilgGleby: 43, paliwo: null, akumulator: 22 },
+  { id: 1, nazwa: "Sad #1", strefa: "Strefa A", typ: "spalinowa", status: "praca", woda: true, tempZewn: 7.4, tempWet: 5.9, wilgGleby: 61, paliwo: 68, akumulator: 87 },
+  { id: 2, nazwa: "Sad #2", strefa: "Strefa A", typ: "spalinowa", status: "stop", woda: true, tempZewn: 7.2, tempWet: 5.5, wilgGleby: 58, paliwo: 85, akumulator: 94 },
+  { id: 3, nazwa: "Winnica #2", strefa: "Strefa B", typ: "elektryczna", status: "awaria", woda: false, tempZewn: 6.9, tempWet: 5.6, wilgGleby: 43, paliwo: null, akumulator: 22 },
 ];
 
 const alerts = [
-  { id: 1, typ: "awaria", pompa: "Winnica #2", msg: "Wykryto suchobieg — pompa pracuje bez wody", czas: "2 min temu" },
+  { id: 1, typ: "awaria", pompa: "Winnica #2", msg: "Niskie ciśnienie — sprawdź instalację", czas: "2 min temu" },
   { id: 2, typ: "ostrzez", pompa: "Winnica #2", msg: "Krytyczny stan akumulatora — 22%", czas: "4 min temu" },
   { id: 3, typ: "ostrzez", pompa: "Winnica #2", msg: "Niska wilgotność gleby — 43%", czas: "8 min temu" },
-  { id: 4, typ: "info", pompa: "Sad #1", msg: "Harmonogram nawadniania ON", czas: "14 min temu" },
-  { id: 5, typ: "mroz", pompa: "System", msg: "Ryzyko mrozu — prognoza -1°C", czas: "1 godz. temu" },
+  { id: 4, typ: "info", pompa: "Sad #1", msg: "Pompa uruchomiona z aplikacji", czas: "14 min temu" },
+  { id: 5, typ: "info", pompa: "Sad #2", msg: "Pompa zatrzymana z aplikacji", czas: "1 godz. temu" },
 ];
 
 const months = ["Sty", "Lut", "Mar", "Kwi", "Maj", "Cze", "Lip", "Sie", "Wrz", "Paź", "Lis", "Gru"];
@@ -91,10 +91,10 @@ const WaterBanner = ({ ok }: { ok: boolean }) => (
     <span style={{ fontSize: 14 }}>{ok ? "💧" : "🚱"}</span>
     <div style={{ flex: 1 }}>
       <div style={{ fontSize: 11, fontWeight: 800, color: ok ? C.green : C.red }}>
-        {ok ? "WODA OK" : "SUCHOBIEG — brak wody"}
+        {ok ? "CIŚNIENIE OK" : "NISKIE CIŚNIENIE"}
       </div>
       <div style={{ fontSize: 9, color: C.sub, marginTop: 1 }}>
-        {ok ? "Czujnik wykrywa wodę w układzie" : "Czujnik wykrył pracę pompy na sucho"}
+        {ok ? "Ciśnienie w zadanym zakresie" : "Sprawdź pompę i instalację wody"}
       </div>
     </div>
     <span style={{ width: 10, height: 10, borderRadius: "50%", background: ok ? C.green : C.red, boxShadow: `0 0 8px ${ok ? C.green : C.red}` }} />
@@ -103,8 +103,8 @@ const WaterBanner = ({ ok }: { ok: boolean }) => (
 
 const MetricGrid = ({ p }: { p: Pump }) => {
   const items = [
-    { l: "Temp. zewn.", v: `${p.tempZewn}°C`, c: C.teal, icon: "🌡️" },
-    { l: "Wilg. powietrza", v: `${p.wilgPow}%`, c: C.blue, icon: "💨" },
+    { l: "Termometr suchy", v: `${p.tempZewn}°C`, c: C.teal, icon: "🌡️" },
+    { l: "Termometr mokry", v: `${p.tempWet}°C`, c: C.blue, icon: "🌡️" },
     { l: "Wilg. gleby", v: `${p.wilgGleby}%`, c: soilColor(p.wilgGleby), icon: "🌱" },
     { l: "Akumulator", v: `${p.akumulator}%`, c: pctColor(p.akumulator), icon: "🔋" },
   ];
@@ -163,7 +163,7 @@ const HomeView = ({ onSelect }: { onSelect: (p: Pump) => void }) => {
       <div style={{ background: `linear-gradient(135deg,${C.blueDeep}44,${C.card})`, border: `1px solid ${C.blue}33`, borderRadius: 18, padding: "16px 18px", position: "relative", overflow: "hidden" }}>
         <div style={{ position: "absolute", right: -20, top: -20, width: 100, height: 100, borderRadius: "50%", background: C.blueGlow, filter: "blur(20px)" }} />
         <div style={{ fontSize: 11, color: C.blue, letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: 4 }}>
-          Lokalizacja · Częściowe zachmurzenie
+          Podgląd aplikacji · dane przykładowe
         </div>
         <div style={{ fontSize: 22, fontWeight: 900, color: C.text, lineHeight: 1.2 }}>
           Dzień dobry, <span style={{ color: C.blue }}>7.4°C</span>
@@ -172,7 +172,7 @@ const HomeView = ({ onSelect }: { onSelect: (p: Pump) => void }) => {
           {[
             { v: `${running}/${pumps.length}`, l: "w pracy", c: C.green },
             { v: `${failures}`, l: "awarie", c: failures > 0 ? C.red : C.muted },
-            { v: `${dry}`, l: "brak wody", c: dry > 0 ? C.amber : C.muted },
+            { v: `${dry}`, l: "alarm ciśnienia", c: dry > 0 ? C.amber : C.muted },
           ].map((s) => (
             <div key={s.l} style={{ flex: 1, background: "#0a1524", borderRadius: 12, padding: "8px 10px", border: `1px solid ${s.c === C.muted ? C.border2 : s.c + "33"}` }}>
               <div style={{ fontSize: 18, fontWeight: 900, color: s.c, fontFamily: "'Space Grotesk Variable', monospace" }}>{s.v}</div>
@@ -182,15 +182,15 @@ const HomeView = ({ onSelect }: { onSelect: (p: Pump) => void }) => {
         </div>
       </div>
 
-      {/* frost alert */}
+      {/* example pressure alert */}
       <div style={{ background: `${C.ice}0a`, border: `1px solid ${C.ice}33`, borderRadius: 16, padding: "12px 14px", display: "flex", alignItems: "center", gap: 12 }}>
-        <span style={{ fontSize: 26, filter: "drop-shadow(0 0 8px #bae6fd88)" }}>❄️</span>
+        <span style={{ fontSize: 26, filter: "drop-shadow(0 0 8px #bae6fd88)" }}>💧</span>
         <div style={{ flex: 1 }}>
-          <div style={{ fontSize: 12, fontWeight: 800, color: C.ice }}>Alert: Ryzyko mrozu dziś w nocy</div>
-          <div style={{ fontSize: 11, color: C.sub, marginTop: 2 }}>Prognoza: -1°C · Temp. zewnętrzna: 7.4°C</div>
+          <div style={{ fontSize: 12, fontWeight: 800, color: C.ice }}>Alert: Niskie ciśnienie w instalacji</div>
+          <div style={{ fontSize: 11, color: C.sub, marginTop: 2 }}>Winnica #2 · Sprawdź pompę i instalację</div>
         </div>
         <span style={{ padding: "6px 12px", borderRadius: 20, border: `1px solid ${C.ice}66`, background: `${C.ice}18`, color: C.ice, fontSize: 11, fontWeight: 700, whiteSpace: "nowrap" }}>
-          Auto-aktywacja poniżej 1°C
+          Podgląd
         </span>
       </div>
 
@@ -216,7 +216,7 @@ const HomeView = ({ onSelect }: { onSelect: (p: Pump) => void }) => {
                 <div>
                   <div style={{ fontSize: 14, fontWeight: 800, color: C.text }}>{p.nazwa}</div>
                   <div style={{ fontSize: 11, color: C.sub, marginTop: 2 }}>
-                    {p.strefa} · {p.typ === "diesel" ? "⛽ Diesel" : "⚡ Elektryczna"}
+                    {p.strefa} · {p.typ === "spalinowa" ? "⛽ Spalinowa" : "⚡ Elektryczna"}
                   </div>
                 </div>
                 <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
@@ -226,7 +226,7 @@ const HomeView = ({ onSelect }: { onSelect: (p: Pump) => void }) => {
               </div>
               <WaterBanner ok={p.woda} />
               <MetricGrid p={p} />
-              {p.typ === "diesel" && p.paliwo != null && (
+              {p.typ === "spalinowa" && p.paliwo != null && (
                 <div style={{ marginTop: 10 }}>
                   <FuelBar label="Paliwo" value={p.paliwo} />
                 </div>
@@ -264,7 +264,6 @@ const HomeView = ({ onSelect }: { onSelect: (p: Pump) => void }) => {
 };
 
 const PumpView = ({ pump, onBack }: { pump: Pump; onBack: () => void }) => {
-  const [mode, setMode] = useState<"auto" | "reczny">("auto");
   const [on, setOn] = useState(pump.status === "praca");
 
   return (
@@ -277,7 +276,7 @@ const PumpView = ({ pump, onBack }: { pump: Pump; onBack: () => void }) => {
         <div>
           <div style={{ fontSize: 20, fontWeight: 900, color: C.text }}>{pump.nazwa}</div>
           <div style={{ fontSize: 11, color: C.sub, marginTop: 2 }}>
-            {pump.strefa} · {pump.typ === "diesel" ? "⛽ Diesel" : "⚡ Elektryczna"}
+            {pump.strefa} · {pump.typ === "spalinowa" ? "⛽ Spalinowa" : "⚡ Elektryczna"}
           </div>
         </div>
         <StatusBadge status={pump.status} />
@@ -297,21 +296,11 @@ const PumpView = ({ pump, onBack }: { pump: Pump; onBack: () => void }) => {
             <span style={{ position: "absolute", top: 3, left: on ? 28 : 3, width: 20, height: 20, borderRadius: "50%", background: on ? C.green : C.muted, transition: "left .22s", boxShadow: on ? `0 0 8px ${C.green}77` : "none" }} />
           </button>
         </div>
-        <div style={{ display: "flex", gap: 6 }}>
-          {(["auto", "reczny"] as const).map((m) => (
-            <button
-              key={m}
-              onClick={() => setMode(m)}
-              style={{ flex: 1, padding: "8px 0", borderRadius: 10, fontSize: 11, fontWeight: 700, cursor: "pointer", border: `1px solid ${mode === m ? C.blue + "66" : C.border2}`, background: mode === m ? `${C.blue}22` : C.surface, color: mode === m ? C.blue : C.muted }}
-            >
-              {m === "auto" ? "Auto-aktywacja poniżej 1°C" : "Ręczny"}
-            </button>
-          ))}
-        </div>
+        <p style={{ fontSize: 10, color: C.sub }}>Podgląd sterowania: {on ? "włączone" : "wyłączone"}. Przykładowe dane, bez połączenia z pompą.</p>
       </div>
 
       <MetricGrid p={pump} />
-      {pump.typ === "diesel" && pump.paliwo != null && <FuelBar label="Paliwo" value={pump.paliwo} />}
+      {pump.typ === "spalinowa" && pump.paliwo != null && <FuelBar label="Paliwo" value={pump.paliwo} />}
 
       {/* analytics */}
       <div style={{ background: C.card, border: `1px solid ${C.border}`, borderRadius: 16, padding: 14 }}>
@@ -325,9 +314,9 @@ const PumpView = ({ pump, onBack }: { pump: Pump; onBack: () => void }) => {
           <span style={{ fontSize: 8, color: C.muted }}>{months[11]}</span>
         </div>
       </div>
-      <div style={{ background: C.card, border: `1px solid ${C.border}`, borderRadius: 16, padding: 14 }}>
+      {pump.typ === "spalinowa" && <div style={{ background: C.card, border: `1px solid ${C.border}`, borderRadius: 16, padding: 14 }}>
         <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 10 }}>
-          <span style={{ fontSize: 11, fontWeight: 700, color: C.muted, letterSpacing: "0.1em", textTransform: "uppercase" }}>Zużycie paliwa</span>
+          <span style={{ fontSize: 11, fontWeight: 700, color: C.muted, letterSpacing: "0.1em", textTransform: "uppercase" }}>Przykładowe poziomy paliwa (%)</span>
           <span style={{ fontSize: 11, color: C.sub }}>Miesięczny podział</span>
         </div>
         <BarChart data={fuelMonthly} color={C.teal} />
@@ -335,7 +324,7 @@ const PumpView = ({ pump, onBack }: { pump: Pump; onBack: () => void }) => {
           <span style={{ fontSize: 8, color: C.muted }}>{months[0]}</span>
           <span style={{ fontSize: 8, color: C.muted }}>{months[11]}</span>
         </div>
-      </div>
+      </div>}
     </div>
   );
 };
@@ -361,8 +350,8 @@ const AppDemo = () => {
             Aplikacja w <span className="text-gradient">akcji</span>
           </h2>
           <p className="text-hero-foreground/70 text-lg">
-            Zdalny nadzór pomp irygacyjnych z monitoringiem środowiska i ochroną przed
-            mrozem. Kliknij pompę, żeby zobaczyć szczegóły.
+            Zobacz przykładowe sterowanie i pomiary zestawu z dodatkowymi czujnikami.
+            Kliknij pompę, żeby zobaczyć szczegóły. Prezentacja korzysta z danych przykładowych.
           </p>
         </div>
 
@@ -416,3 +405,4 @@ const AppDemo = () => {
 };
 
 export default AppDemo;
+

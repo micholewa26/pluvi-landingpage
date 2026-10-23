@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://pluvi.pl/o-nas</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://pluvi.pl/system</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://pluvi.pl/pompy</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://pluvi.pl/konfigurator</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://pluvi.pl/kontakt</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url>
     <loc>https://pluvi.pl/</loc>
     <changefreq>monthly</changefreq>
