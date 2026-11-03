@@ -11,7 +11,7 @@ const Navbar = () => {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-secondary/95 backdrop-blur-md border-b border-white/10">
       <div className="container mx-auto flex items-center justify-between h-16 px-4 lg:px-8">
-        <Link to="/" aria-label="PLUVI — strona główna"><img src={logo} alt="PLUVI" className="h-10 w-auto" /></Link>
+        <Link to="/" aria-label="PLUVI — strona główna"><img src={logo} alt="PLUVI" className="h-12 w-auto brightness-0 invert" /></Link>
         <nav aria-label="Menu główne" className="hidden md:flex items-center gap-6">
           {navLinks.map(link => <NavLink end={link.href === "/"} key={link.href} to={link.href} className={({ isActive }) => `text-sm transition-colors ${isActive ? "text-white border-b border-[#c3e5c7] pb-1" : "text-white/65 hover:text-white"}`}>{link.label}</NavLink>)}
         </nav>

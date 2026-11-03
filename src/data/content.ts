@@ -53,7 +53,7 @@ export const valueCards: { icon: LucideIcon; title: string; desc: string }[] = [
   {
     icon: Layers,
     title: "Spójny ekosystem",
-    desc: "Jeden sterownik dla pomp spalinowych typu GX 160 i GX 270, pomp elektrycznych oraz indywidualnie integrowanych urządzeń.",
+    desc: "Jeden sterownik dla pomp spalinowych typu GX, pomp głębinowych oraz indywidualnie integrowanych urządzeń.",
   },
   {
     icon: Smartphone,
@@ -91,14 +91,14 @@ export const demoFeatures = [
 ];
 
 export const moduleSection = {
-  sub: "Pompy spalinowe typu GX 160 i GX 270, pompy elektryczne oraz własne urządzenia. Wybierz urządzenie i dobierz czujniki w konfiguratorze.",
+  sub: "Pompy spalinowe typu GX, pompy głębinowe oraz własne urządzenia. Wybierz urządzenie i dobierz czujniki w konfiguratorze.",
   badge: "PLUVI",
   title: "Sterownik PLUVI",
-  desc: "Sterownik PLUVI zapewnia procedurę startu i pomiar ciśnienia wody w instalacji pompy. W pompach elektrycznych podłącza się go pomiędzy szafę sterującą a pompę. Zestawy spalinowe GX 160 i GX 270 zawierają zbiornik paliwa 25 l z pomiarem poziomu paliwa. Opcjonalnie dobierzesz pomiar wilgotności gleby oraz termometr suchy i mokry. Dla własnego urządzenia przygotowujemy indywidualną integrację.",
+  desc: "Sterownik PLUVI zapewnia procedurę startu i pomiar ciśnienia wody w instalacji pompy. W pompach głębinowych podłącza się go pomiędzy szafę sterującą a pompę. Zestawy spalinowe GX zawierają panel fotowoltaiczny 30 × 30 cm do ładowania akumulatora, regulator zintegrowany w sterowniku oraz zbiornik paliwa 25 l z pomiarem poziomu paliwa. Opcjonalnie dobierzesz pomiar wilgotności gleby oraz termometr suchy i mokry. Dla własnego urządzenia przygotowujemy indywidualną integrację.",
   chips: [
     "Start / Stop",
     "Monitoring & nadzór",
-    "GX 160 / GX 270",
+    "GX",
     "Spalinowe: zbiornik 25 l + pomiar paliwa",
     "Ciśnienie wody",
     "Opcja: termometr suchy i mokry",

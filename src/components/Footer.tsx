@@ -9,7 +9,7 @@ const Footer = () => (
       <div className="grid md:grid-cols-3 gap-8 mb-8">
         <div>
           <div className="flex items-center gap-2 mb-4">
-            <img src={brandLogo} alt="PLUVI logo" className="h-[3.3rem] w-auto" />
+            <img src={brandLogo} alt="PLUVI logo" className="h-[3.8rem] w-auto brightness-0 invert" />
           </div>
           <p className="text-sm text-secondary-foreground/60 leading-relaxed">
             {company.footerDesc}

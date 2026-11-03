@@ -1,3 +1,4 @@
+import GxProduct from "./GxProduct";
 import { AnimatePresence, motion, useMotionValue, useReducedMotion, useSpring, useTransform } from "framer-motion";
 import { ArrowRight, Cog, Focus, Minus, Plus, RotateCcw } from "lucide-react";
 import { useState } from "react";
@@ -30,7 +31,7 @@ export default function ProductStage({ model, name, soil, temperature, toggle }:
         <motion.div className="pump-perspective" style={{rotateX: reduced ? 0 : rx, rotateY: reduced ? 0 : ry}}>
           <AnimatePresence mode="wait">
             <motion.div key={model} className="pump-asset" initial={{opacity:0, y:reduced ? 0 : 25, scale:.94}} animate={{opacity:1,y:0,scale:zoom ? 1.17 : 1}} exit={{opacity:0,scale:.94}} transition={transition}>
-              {model === "custom" ? <div className="custom-integration"><figure><img src={controllerPhoto} alt="Nasz sterownik PLUVI z anteną — zdjęcie z sadu" draggable={false} /><figcaption>Sterownik PLUVI</figcaption></figure><div className="custom-link"><span /><ArrowRight size={22} /><span /></div><div className="custom-device"><Cog size={46} strokeWidth={1} /><strong>Twoje urządzenie</strong><span>Integracja dopasowana<br />do Twojego sprzętu</span></div></div> : <img src={asset(model === "electric" ? "electric-pluvi" : "pump")} alt={model === "electric" ? "Szafa sterująca, osobny sterownik PLUVI pośrodku i pompa elektryczna — poglądowy układ podłączenia" : `Poglądowa wizualizacja: ${name} ze sterownikiem PLUVI`} draggable={false} decoding="async" />}
+              {model === "custom" ? <div className="custom-integration"><figure><img src={controllerPhoto} alt="Nasz sterownik PLUVI z anteną — zdjęcie z sadu" draggable={false} /><figcaption>Sterownik PLUVI</figcaption></figure><div className="custom-link"><span /><ArrowRight size={22} /><span /></div><div className="custom-device"><Cog size={46} strokeWidth={1} /><strong>Twoje urządzenie</strong><span>Integracja dopasowana<br />do Twojego sprzętu</span></div></div> : isCombustion(model) ? <GxProduct /> : <img src={`${import.meta.env.BASE_URL}images/configurator/submersible-pluvi.png`} alt={model === "electric" ? "Szafa sterująca, osobny sterownik PLUVI pośrodku i pompa głębinowa — poglądowy układ podłączenia" : `Model poglądowy: ${name} ze sterownikiem PLUVI i panelem fotowoltaicznym 30 × 30 cm`} draggable={false} decoding="async" />}
             </motion.div>
           </AnimatePresence>
         </motion.div>
@@ -40,11 +41,11 @@ export default function ProductStage({ model, name, soil, temperature, toggle }:
         <button type="button" className="scene-hotspot" onClick={() => toggle("temperature")} aria-pressed={temperature} aria-label={temperature ? "Usuń termometry ze sceny" : "Dodaj termometry do sceny"}><span>{temperature ? <CheckMark /> : <Plus size={16} />}</span><div><small>TERMOMETR</small><strong>Suchy + mokry</strong><em>{temperature ? "Dołączono · kliknij, aby usunąć" : "Dodaj pomiar temperatury"}</em></div></button>
       </div>
       <div className={`scene-addon addon-soil ${soil ? "installed" : ""}`}>
-        <AnimatePresence>{soil && <motion.img key="soil" src={asset("soil")} alt="Czujnik wilgotności z sondą umieszczoną w przekroju gleby" draggable={false} initial={{opacity:0,y:reduced?0:65,scale:.7}} animate={{opacity:1,y:0,scale:1}} exit={{opacity:0,y:reduced?0:40,scale:.8}} transition={transition} />}</AnimatePresence>
+        <AnimatePresence>{soil && <motion.img key="soil" src={`${import.meta.env.BASE_URL}images/configurator/soil-pluvi-wired.png`} alt="Sonda pomiaru wilgotności gleby PLUVI z białą obudową i przewodem" draggable={false} initial={{opacity:0,y:reduced?0:65,scale:.7}} animate={{opacity:1,y:0,scale:1}} exit={{opacity:0,y:reduced?0:40,scale:.8}} transition={transition} />}</AnimatePresence>
         <button type="button" className="scene-hotspot" onClick={() => toggle("soil")} aria-pressed={soil} aria-label={soil ? "Usuń sondę ze sceny" : "Dodaj sondę do gleby"}><span>{soil ? <CheckMark /> : <Plus size={16} />}</span><div><small>POMIAR WILGOTNOŚCI</small><strong>Sonda w glebie</strong><em>{soil ? "Dołączono · kliknij, aby usunąć" : "Dodaj pomiar wilgotności"}</em></div></button>
       </div></>}
-      {model === "electric" && <div className="electric-topology"><span>Szafa sterująca</span><ArrowRight size={14} /><strong>Sterownik PLUVI</strong><ArrowRight size={14} /><span>Pompa elektryczna</span></div>}
-      <div className="stage-base-tag"><span className="studio-led" /> {model === "custom" ? "WŁASNA INTEGRACJA DO WŁASNEGO URZĄDZENIA" : "STEROWNIK + PROCEDURA STARTU + CIŚNIENIE WODY"}{isCombustion(model) && <strong className="stage-fuel">W zestawie: zbiornik 25 l + pomiar poziomu paliwa</strong>}</div>
+      {model === "electric" && <div className="electric-topology"><span>Szafa sterująca</span><ArrowRight size={14} /><strong>Sterownik PLUVI</strong><ArrowRight size={14} /><span>Pompa głębinowa</span></div>}
+      <div className="stage-base-tag"><span className="studio-led" /> {model === "custom" ? "WŁASNA INTEGRACJA DO WŁASNEGO URZĄDZENIA" : "STEROWNIK + PROCEDURA STARTU + CIŚNIENIE WODY"}{isCombustion(model) && <strong className="stage-fuel">Panel PV 30 × 30 cm · regulator w sterowniku</strong>}</div>
     </div>
     <div className="stage-footer"><span><RotateCcw size={12} /> Porusz kursorem, aby zmienić perspektywę</span><span>Wizualizacja poglądowa · wygląd zestawu może się różnić</span></div>
   </div>;

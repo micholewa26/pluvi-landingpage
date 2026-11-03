@@ -21,7 +21,7 @@ export default function Configurator() {
   if (config.pump.id === "custom" && config.device.trim()) contactParams.set("device", config.device.trim());
   const count = Number(config.soil) + Number(config.temperature);
   return <section className="config-studio">
-    <div className="studio-header"><div><p className="studio-eyebrow">PLUVI / BUILD YOUR SYSTEM</p><h1>Twój sad.<br /><span>Twój ekosystem.</span></h1></div><p>Wybierz pompę. Dołącz czujniki.<br />Zobacz, jak powstaje Twój zestaw.</p><span className="studio-edition">KONFIGURATOR<br /><strong>01 — 04</strong></span></div>
+    <div className="studio-header"><div><p className="studio-eyebrow">DOBIERZ PLUVI DO SWOJEJ INSTALACJI</p><h1>Twój zestaw.<br /><span>Prosty wybór.</span></h1></div><p>Wybierz pompę. Dołącz czujniki.<br />Zobacz, jak powstaje Twój zestaw.</p></div>
     <div className="studio-workspace">
       <div className="studio-visual">
         <fieldset className="studio-models"><legend className="sr-only">Wybierz urządzenie</legend>{pumpTypes.map((p,i) => <label key={p.id} className={config.pump.id === p.id ? "selected" : ""}><input type="radio" name="device-model" value={p.id} checked={config.pump.id === p.id} onChange={() => update("model",p.id)} /><small>0{i+1}</small><strong>{p.name}</strong><p.icon size={17} aria-hidden="true" /></label>)}</fieldset>
@@ -33,7 +33,7 @@ export default function Configurator() {
         <div className="studio-base"><span className="studio-section-label">{config.pump.id === "custom" ? "TWOJA INTEGRACJA" : "BAZA / W ZESTAWIE"}</span>{getBaseFeatures(config.pump.id).map(f => <p key={f}><Check size={13} aria-hidden="true" />{f}</p>)}</div>
         {config.pump.id !== "custom" && <fieldset className="studio-sensors"><legend className="studio-section-label">ROZBUDUJ SWÓJ ZESTAW</legend>{optionalSensors.map(s => <label className={`studio-sensor ${config[s.id] ? "selected" : ""}`} key={s.id}>
           <input type="checkbox" checked={config[s.id]} onChange={e => update(s.id,e.target.checked ? "1" : "")} />
-          <img src={`${import.meta.env.BASE_URL}images/configurator/${s.id}.webp`} alt="" loading="eager" />
+          <img src={`${import.meta.env.BASE_URL}images/configurator/${s.id === "soil" ? "soil-pluvi-wired.png" : "temperature.webp"}`} alt="" loading="eager" />
           <span><strong>{s.title}</strong><small>{s.id === "soil" ? "Sonda w glebie" : "Termometr suchy + mokry"}</small><em>{config[s.id] ? "W Twoim zestawie" : "Kliknij, aby dołączyć"}</em></span><span className="sensor-toggle" aria-hidden="true">{config[s.id] ? <Check size={15} /> : <Plus size={15} />}</span>
         </label>)}</fieldset>}
         <div className="studio-total" aria-live="polite"><span>Twój zestaw</span><strong>{config.pump.id === "custom" ? "Indywidualna integracja" : `Baza + ${count} ${count === 1 ? "rozszerzenie" : "rozszerzenia"}`}</strong></div>
